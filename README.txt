@@ -30,6 +30,3 @@ Introduction:
     9.2 Then the hashmaps will be passed to the other two replicas who holds the same map piece, in a new message type MAP.
 
     9.3 When the server's receiverThread receives a message of MAP type, it will parse the message and find the key-value pair, put it in one of the temp spaces and wait for another one. Upon both arrives, update HashMap based on the received maps.
-
-
-Note:
