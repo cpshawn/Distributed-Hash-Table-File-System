@@ -1,6 +1,6 @@
-A Java-based distributed hash table file system, with multiple servers and clients for data storage, update and lookup. Each object has three replicas stored across three servers based on a hash function for easy recovery.
+A Java-based distributed hash table file system, with multiple servers and clients for data storage, update and lookup. Applied socket programming to client-server communication. 
 
-Applied Lamport timestamp algorithm to handle total ordering in the distributed system, ensuring actions from different clients to be executed in the same order on different servers.
+Each object has three replicas stored across three servers based on a hash function for easy recovery. Applied Lamport timestamp algorithm to handle total ordering in the distributed system, ensuring actions from different clients to be executed in the same order on different servers.
 
 
 
