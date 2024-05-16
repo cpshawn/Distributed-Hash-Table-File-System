@@ -1,3 +1,6 @@
+A Java-based distributed hash table file system, with multiple servers and clients for data storage, update and lookup. 
+
+
 Project Description
 
 Let there be seven data servers, S0, S1, ... S6 and five clients, C0, C1,...,C4. There exist communication channels between all servers. When a client wishes to perform a read or write, it establishes a communication channel with a server chosen as per the description below. This client-server channel lasts for the duration it takes to complete the read or write operation. All communication channels are FIFO and reliable when they are operational: implemented using sockets. Occasionally, a channel may be disrupted in which case no message can be communicated across that channel. There exists a hash function, H, such that for each object, Ok, H(Ok) yields a value in the range 0 − 6.
