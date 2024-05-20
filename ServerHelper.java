@@ -115,7 +115,7 @@ public class ServerHelper {
         BufferedWriter outputStream = new BufferedWriter(new OutputStreamWriter(target.getOutputStream()));
         outputStream.write(message);
         outputStream.newLine();
-        System.out.println("Forwarded message: " + message + " to " + ((targetName.charAt(0) == 'C')? "client ":"server ")  + targetName);
+        System.out.println("Forwarded message:\"" + message + "\" to " + ((targetName.charAt(0) == 'C')? "client ":"server ")  + targetName);
         outputStream.flush();
     }
 
@@ -292,7 +292,7 @@ public class ServerHelper {
                                             // Return fail message to client sender
                                             String errorMessage = lamportTimestamp.incrementAndGet() + ":Error: failed to update[" + key + "]: " + value + ", cannot perform operation on enough servers";
                                             int socketIndex = Character.getNumericValue(sender.charAt(1)) + 6;      // receiverSockets list contains 6 servers and then the 5 clients. For example, client C3's index in the socket list is 10
-                                            System.out.println("Local Lamport time: " + lamportTimestamp + "Error: failed to update[\" + key + \"]: \" + value + \", cannot perform operation on enough servers. Returned error message to sender " + sender);
+                                            System.out.println("Local Lamport time: " + lamportTimestamp + ":Error: failed to update[\" + key + \"]: \" + value + \", cannot perform operation on enough servers. Returned error message to sender " + sender);
                                             forwardMessage(receiverSockets.get(socketIndex), errorMessage, sender);
                                         } else {
                                             // Forward this message with an updated lamport number to the connected servers, then update map
