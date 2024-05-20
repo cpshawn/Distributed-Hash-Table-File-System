@@ -67,3 +67,80 @@ Introduction:
     9.2 Then the hashmaps will be passed to the other two replicas who holds the same map piece, in a new message type MAP.
 
     9.3 When the server's receiverThread receives a message of MAP type, it will parse the message and find the key-value pair, put it in one of the temp spaces and wait for another one. Upon both arrives, update HashMap based on the received maps.
+
+
+ISSUE:
+merge function is not working. Error messages shown on servers are like:
+
+    Local Lamport time: 4, Handling command: 4:C1:merge
+    Received message: 14:S5:MAP:29:
+    Buffered message: 15:S5:MAP:29:
+    Buffer status:[15:S5:MAP:29:]
+    Received message: 17:S3:MAP:29:
+    Buffered message: 18:S3:MAP:29:
+    Buffer status:[15:S5:MAP:29:, 18:S3:MAP:29:]
+    Received message: 19:S3:MAP:172:
+    Buffered message: 20:S3:MAP:172:
+    Buffer status:[15:S5:MAP:29:, 18:S3:MAP:29:, 20:S3:MAP:172:]
+    Received message: 10:S6:MAP:172:
+    Buffered message: 21:S6:MAP:172:
+    Buffer status:[15:S5:MAP:29:, 18:S3:MAP:29:, 20:S3:MAP:172:, 21:S6:MAP:172:]
+    Received message: 26:S6:MAP:116:
+    Buffered message: 27:S6:MAP:116:
+    Buffer status:[15:S5:MAP:29:, 18:S3:MAP:29:, 20:S3:MAP:172:, 21:S6:MAP:172:, 27:S6:MAP:116:]
+    Forwarded message:"5:S1:MAP:29:" to server S3
+    Forwarded message:"28:S1:MAP:29:" to server S5
+    Forwarded message:"29:S1:MAP:172:" to server S6
+    Forwarded message:"30:S1:MAP:172:" to server S3
+    Forwarded message:"31:S1:MAP:116:" to server S6
+    Forwarded message:"32:S1:MAP:116:" to server S4
+    Local Lamport time: 32, Handling command: 15:S5:MAP:29:
+    Received message: 32:S4:MAP:116:
+    Buffered message: 33:S4:MAP:116:
+    Buffer status:[18:S3:MAP:29:, 21:S6:MAP:172:, 20:S3:MAP:172:, 27:S6:MAP:116:, 33:S4:MAP:116:]
+    Exception in thread "Thread-11" java.lang.RuntimeException: java.lang.NumberFormatException: For input string: ""
+        at ServerHelper$AppendThread.run(ServerHelper.java:653)
+        at java.base/java.lang.Thread.run(Thread.java:840)
+    Caused by: java.lang.NumberFormatException: For input string: ""
+        at java.base/java.lang.NumberFormatException.forInputString(NumberFormatException.java:67)
+        at java.base/java.lang.Integer.parseInt(Integer.java:678)
+        at java.base/java.lang.Integer.parseInt(Integer.java:786)
+        at ServerHelper.stringToHashMap(ServerHelper.java:142)
+        at ServerHelper$AppendThread.run(ServerHelper.java:557)
+        ... 1 more
+
+
+
+    Received message: 6:C1:merge
+    Buffered message: 8:C1:merge
+    Buffer status:[]
+    Local Lamport time: 8, Handling command: 8:C1:merge
+    Forwarded message:"9:S5:MAP:144:" to server S0
+    Forwarded message:"10:S5:MAP:144:" to server S2
+    Forwarded message:"11:S5:MAP:87:" to server S3
+    Forwarded message:"12:S5:MAP:87:" to server S0
+    Forwarded message:"13:S5:MAP:29:" to server S3
+    Forwarded message:"14:S5:MAP:29:" to server S1
+    Received message: 18:S0:MAP:0:
+    Buffered message: 19:S0:MAP:0:
+    Buffer status:[]
+    Local Lamport time: 19, Handling command: 19:S0:MAP:0:
+    Received message: 6:S2:MAP:58:
+    Buffered message: 20:S2:MAP:58:
+    Buffer status:[20:S2:MAP:58:]
+    Received message: 14:S2:MAP:0:
+    Buffered message: 21:S2:MAP:0:
+    Buffer status:[20:S2:MAP:58:, 21:S2:MAP:0:]
+    Exception in thread "Thread-11" java.lang.RuntimeException: java.lang.NumberFormatException: For input string: ""
+        at ServerHelper$AppendThread.run(ServerHelper.java:653)
+        at java.base/java.lang.Thread.run(Thread.java:840)
+    Caused by: java.lang.NumberFormatException: For input string: ""
+        at java.base/java.lang.NumberFormatException.forInputString(NumberFormatException.java:67)
+        at java.base/java.lang.Integer.parseInt(Integer.java:678)
+        at java.base/java.lang.Integer.parseInt(Integer.java:786)
+        at ServerHelper.stringToHashMap(ServerHelper.java:142)
+        at ServerHelper$AppendThread.run(ServerHelper.java:575)
+        ... 1 more
+    Received message: 32:S1:MAP:116:
+    Buffered message: 33:S1:MAP:116:
+    Buffer status:[20:S2:MAP:58:, 21:S2:MAP:0:, 33:S1:MAP:116:]

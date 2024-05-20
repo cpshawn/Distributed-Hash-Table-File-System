@@ -186,7 +186,6 @@ public class ServerHelper {
                 System.out.println("Thread "+ threadName + " closed");
             }
 //                }while(!(message.split(":")[2].equals("close")));
-
         }
 
         public void start() {
