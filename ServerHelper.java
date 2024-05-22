@@ -139,7 +139,12 @@ public class ServerHelper {
         String[] keyValuePairs = str.split(",");
         for (String pair : keyValuePairs) {
             String[] entry = pair.split(":");
-            map.put(Integer.parseInt(entry[0]), Integer.parseInt(entry[1]));
+            if (entry.length == 2 && !entry[1].isEmpty()) {
+                try {
+                    map.put(Integer.parseInt(entry[0]), Integer.parseInt(entry[1]));
+                } catch (NumberFormatException e) {
+                }
+            }
         }
         return map;
     }
@@ -543,12 +548,15 @@ public class ServerHelper {
                             // Received a piece of map, wait until two of the same key received, then use them to update that part of map.
                             case "MAP":
                                 // Message format:
-                                // Lamport:sender:MAP:key:(map values)
+                                // parts = [Lamport, sender, others]
+                                // others = MAP:key:(map values)
                                 // map values----key1:value1,key2:value2,...
                                 // Convert 3 maps into 3 hashmaps with startindex as key
 
+                                // key
                                 int incomingMapKey = Integer.parseInt(parts[2].split(":", 3)[1]);
-                                String incomingMapVal = parts[2].split(":", 4)[2];
+                                // map values
+                                String incomingMapVal = parts[2].split(":", 3)[2];
                                 // Belongs to map1
                                 if (incomingMapKey >= startIndex1 & incomingMapKey <= endIndex1){
                                     if (onHoldMap1FirstCopy.isEmpty()){
