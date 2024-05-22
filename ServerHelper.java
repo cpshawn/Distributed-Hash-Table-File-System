@@ -177,7 +177,6 @@ public class ServerHelper {
 
                     queue.add(messageWithUpdatedLamport);
                     System.out.println("Buffered message: " + messageWithUpdatedLamport);
-                    System.out.println("Buffer status:" + queue);
                 }
 
             } catch (IOException ex) {
@@ -271,7 +270,7 @@ public class ServerHelper {
                                 value = Integer.parseInt(keyValToBeUpdated[2]);
 
                                 // If this message is from a server in replica, do not forward it
-                                boolean fromReplicaServer = ((sender.charAt(0) == 'S') && fromReplicaServer(serverID, senderID));
+                                boolean fromReplicaServer = ((sender.charAt(0) == 'S') & fromReplicaServer(serverID, senderID));
                                 if (startIndex1 <= key & endIndex1 >= key) {           // Key in the first map
                                     if (!fromReplicaServer) {
                                         // From client, find the next two hash nodes and forward
@@ -287,7 +286,7 @@ public class ServerHelper {
                                             openedPortsID.add(nextNextServerId);
                                         }
 
-                                        if (openedPortsID.size() == 0) {
+                                        if (openedPortsID.isEmpty()) {
                                             // Return fail message to client sender
                                             String errorMessage = lamportTimestamp.incrementAndGet() + ":Error: failed to update[" + key + "]: " + value + ", cannot perform operation on enough servers";
                                             int socketIndex = Character.getNumericValue(sender.charAt(1)) + 6;      // receiverSockets list contains 6 servers and then the 5 clients. For example, client C3's index in the socket list is 10
@@ -327,7 +326,7 @@ public class ServerHelper {
                                             openedPortsID.add(nextServerId);
                                         }
 
-                                        if (openedPortsID.size() == 0) {
+                                        if (openedPortsID.isEmpty()) {
                                             // Return fail message to client sender
                                             String errorMessage = lamportTimestamp.incrementAndGet() + ":Error: failed to update[" + key + "]: " + value + ", cannot perform operation on enough servers";
                                             int socketIndex = Character.getNumericValue(sender.charAt(1)) + 6;      // receiverSockets list contains 6 servers and then the 5 clients. For example, client C3's index in the socket list is 10
@@ -367,7 +366,7 @@ public class ServerHelper {
                                             openedPortsID.add(previousServerId);
                                         }
 
-                                        if (openedPortsID.size() == 0) {
+                                        if (openedPortsID.isEmpty()) {
                                             // Return fail message to client sender
                                             String errorMessage = lamportTimestamp.incrementAndGet() + ":Error: failed to update[" + key + "]: " + value + ", cannot perform operation on enough servers";
                                             int socketIndex = Character.getNumericValue(sender.charAt(1)) + 6;      // receiverSockets list contains 6 servers and then the 5 clients. For example, client C3's index in the socket list is 10
@@ -399,7 +398,7 @@ public class ServerHelper {
                                     for (List<Integer> range : ranges) {
                                         int startIndex = range.get(0);
                                         int endIndex = range.get(1);
-                                        if (startIndex <= key && key <= endIndex) {
+                                        if (startIndex <= key & key <= endIndex) {
                                             // Key is in this range
                                             break;
                                         }
@@ -587,7 +586,7 @@ public class ServerHelper {
                                         Integer firstCopyValue = onHoldMap1FirstCopy.get(mapKey);
                                         Integer secondCopyValue = onHoldMap1SecondCopy.get(mapKey);
 
-                                        if (firstCopyValue != null && secondCopyValue != null && firstCopyValue.equals(secondCopyValue)) {
+                                        if (firstCopyValue != null & secondCopyValue != null & firstCopyValue.equals(secondCopyValue)) {
                                             // If the key only exists in one on-hold map, it won't be updated in map1.
                                             Integer map1Value = map1.get(mapKey);
 
@@ -609,7 +608,7 @@ public class ServerHelper {
                                         Integer firstCopyValue = onHoldMap2FirstCopy.get(mapKey);
                                         Integer secondCopyValue = onHoldMap2SecondCopy.get(mapKey);
 
-                                        if (firstCopyValue != null && secondCopyValue != null && firstCopyValue.equals(secondCopyValue)) {
+                                        if (firstCopyValue != null & secondCopyValue != null & firstCopyValue.equals(secondCopyValue)) {
                                             // If the key only exists in one on-hold map, it won't be updated in map1.
                                             Integer map1Value = map2.get(mapKey);
 
@@ -631,7 +630,7 @@ public class ServerHelper {
                                         Integer firstCopyValue = onHoldMap3FirstCopy.get(mapKey);
                                         Integer secondCopyValue = onHoldMap3SecondCopy.get(mapKey);
 
-                                        if (firstCopyValue != null && secondCopyValue != null && firstCopyValue.equals(secondCopyValue)) {
+                                        if (firstCopyValue != null & secondCopyValue != null & firstCopyValue.equals(secondCopyValue)) {
                                             // If the key only exists in one on-hold map, it won't be updated in map1.
                                             Integer map1Value = map3.get(mapKey);
 
@@ -646,6 +645,7 @@ public class ServerHelper {
 
                                 break;
                         }
+                    System.out.println("Buffer status:" + queue);
                     }
                 }
             } catch (Exception e) {
