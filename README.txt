@@ -144,3 +144,17 @@ merge function is not working. Error messages shown on servers are like:
     Received message: 32:S1:MAP:116:
     Buffered message: 33:S1:MAP:116:
     Buffer status:[20:S2:MAP:58:, 21:S2:MAP:0:, 33:S1:MAP:116:]
+
+
+5/23/2024: get function is not working, maybe due to wrong message generated
+put function needs fixing: if replica 2 is in another group different from replica 1 and 3, 1 cannot send message to 3.
+
+GeneratedMessage: get:get:1
+[Waiting]Enter command (put/multiput/get/separate/merge):
+Error sending message: For input string: "e"
+java.lang.NumberFormatException: For input string: "e"
+	at java.base/java.lang.NumberFormatException.forInputString(NumberFormatException.java:67)
+	at java.base/java.lang.Integer.parseInt(Integer.java:668)
+	at java.base/java.lang.Integer.parseInt(Integer.java:786)
+	at ClientHelper.sendMessage(ClientHelper.java:249)
+	at C1.main(C1.java:66)
