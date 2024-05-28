@@ -173,7 +173,7 @@ public class ClientHelper {
                         System.out.println("Invalid input.");
                     }
                 }
-                messageToBeSent = (command + ":" + command + ":" + key);
+                messageToBeSent = (receiver + ":" + command + ":" + key);
                 break;
 
             case "separate":
